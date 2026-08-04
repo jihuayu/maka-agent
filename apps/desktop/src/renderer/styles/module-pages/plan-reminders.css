@@ -25,6 +25,9 @@
      (hero / tabs / panel), small steps only inside a unit. */
   gap: var(--space-6);
   padding: 0;
+  /* Plan-reminder filter controls use cqi to shrink as the module narrows,
+     so the tab bar keeps a single stable row and does not wrap. */
+  container-type: inline-size;
 }
 
 .maka-plan-hero {
@@ -76,8 +79,42 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2-5);
-  flex-wrap: wrap;
-  row-gap: var(--space-2-5);
+  /* Keep the tab bar one line and at the same height as the Toolbar it carries,
+     so switching tabs does not make the whole page jump up and down. */
+  flex-wrap: nowrap;
+  min-height: calc(var(--size-element-sm) + var(--space-2) * 2);
+}
+
+.maka-plan-toolbar {
+  /* Let the Astryx Toolbar shrink with the container; its inputs are wrapped
+     and allowed to compress via cqi widths, so nothing forces the tab bar
+     to wrap to a second row. */
+  min-width: 0;
+}
+
+/* Filter controls are wrapped and sized with cqi so the toolbar stays on one
+   line as the module narrows, preventing tab-switch layout jumps. */
+.maka-plan-search,
+.maka-plan-sort,
+.maka-plan-filter,
+.maka-plan-range {
+  min-width: 0;
+}
+
+.maka-plan-search {
+  width: min(260px, 29cqi);
+}
+
+.maka-plan-sort {
+  width: min(172px, 19cqi);
+}
+
+.maka-plan-filter {
+  width: min(148px, 17cqi);
+}
+
+.maka-plan-range {
+  width: min(148px, 17cqi);
 }
 
 .maka-plan-tab-panel {

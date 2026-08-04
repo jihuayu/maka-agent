@@ -341,39 +341,41 @@ export function PlanReminderPanel(props: {
               <Tab value="runs" label={copy.page.runs} />
             </TabList>
             {planView === 'tasks' ? (
-              showListControls ? (
-                <Toolbar
-                  size="sm"
-                  label={copy.page.filtersAriaLabel}
-                  className="maka-plan-toolbar"
-                  startContent={(
-                    <>
-                      <TextInput
-                        label={copy.page.searchLabel}
-                        isLabelHidden
-                        width={260}
-                        value={listQuery}
-                        onChange={(value) => setListQuery(value.slice(0, 120))}
-                        placeholder={copy.page.searchPlaceholder}
-                      />
-                    </>
-                  )}
-                  endContent={(
-                    <>
+              <Toolbar
+                size="sm"
+                label={copy.page.filtersAriaLabel}
+                className="maka-plan-toolbar"
+                startContent={showListControls ? (
+                  <div className="maka-plan-search">
+                    <TextInput
+                      label={copy.page.searchLabel}
+                      isLabelHidden
+                      width="100%"
+                      value={listQuery}
+                      onChange={(value) => setListQuery(value.slice(0, 120))}
+                      placeholder={copy.page.searchPlaceholder}
+                    />
+                  </div>
+                ) : undefined}
+                endContent={showListControls ? (
+                  <>
+                    <div className="maka-plan-sort">
                       <Selector
                         value={listSort}
                         onChange={(value) => setListSort(value as typeof listSort)}
                         label={copy.page.sort}
                         isLabelHidden
-                        width={172}
+                        width="100%"
                         options={copy.page.sortOptions.map(([value, label]) => ({ value, label }))}
                       />
+                    </div>
+                    <div className="maka-plan-filter">
                       <Selector
                         value={listFilter}
                         onChange={(value) => setListFilter(value as PlanReminderListFilter)}
                         label={copy.page.state}
                         isLabelHidden
-                        width={148}
+                        width="100%"
                         options={[
                         { value: 'active', label: copy.page.filterOption(copy.page.active, filterCounts.active) },
                         { value: 'all', label: copy.page.filterOption(copy.page.all, filterCounts.all) },
@@ -388,24 +390,26 @@ export function PlanReminderPanel(props: {
                         },
                         ]}
                       />
-                    </>
-                  )}
-                />
-              ) : null
+                    </div>
+                  </>
+                ) : undefined}
+              />
             ) : (
               <Toolbar
                 size="sm"
                 label={copy.page.runsFilterAriaLabel}
                 className="maka-plan-toolbar"
                 endContent={(
-                  <Selector
-                    value={runRange}
-                    onChange={(value) => setRunRange(value as typeof runRange)}
-                    label={copy.page.range}
-                    isLabelHidden
-                    width={148}
-                    options={copy.page.rangeOptions.map(([value, label]) => ({ value, label }))}
-                  />
+                  <div className="maka-plan-range">
+                    <Selector
+                      value={runRange}
+                      onChange={(value) => setRunRange(value as typeof runRange)}
+                      label={copy.page.range}
+                      isLabelHidden
+                      width="100%"
+                      options={copy.page.rangeOptions.map(([value, label]) => ({ value, label }))}
+                    />
+                  </div>
                 )}
               />
             )}
