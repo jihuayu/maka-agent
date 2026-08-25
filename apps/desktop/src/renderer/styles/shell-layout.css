@@ -343,6 +343,14 @@ dialog:modal {
   color: var(--foreground-secondary);
 }
 
+/* Windows has no native controls on the left side of the overlay. In the
+   collapsed state the 24px platform-neutral gutter is wider than the 48px
+   rail, so it pushes the two titlebar actions out over the content plate.
+   Keep the expanded geometry and the macOS/Linux chrome unchanged. */
+html[data-os="win32"] .appFrame[data-sidebar-state="collapsed"] .maka-window-titlebar {
+  padding-left: var(--maka-window-resize-edge);
+}
+
 /* The session's identity: left-aligned at the content column's left edge.
 
    It sits in the titlebar's second grid column, which opens exactly where the
