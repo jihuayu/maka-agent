@@ -1,0 +1,71 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+header:
+  license:
+    spdx-id: Apache-2.0
+    copyright-owner: Apache Software Foundation
+  paths:
+    - '**/Dockerfile'
+    - '**/network-policy'
+    - '**/*.cjs'
+    - '**/*.css'
+    - '**/*.js'
+    - '**/*.mjs'
+    - '**/*.mts'
+    - '**/*.ps1'
+    - '**/*.py'
+    - '**/*.rs'
+    - '**/*.sh'
+    - '**/*.swift'
+    - '**/*.toml'
+    - '**/*.ts'
+    - '**/*.tsx'
+    - '**/*.yaml'
+    - '**/*.yml'
+  paths-ignore:
+    - '.git/**'
+    - '**/node_modules/**'
+    - '**/dist/**'
+    - '**/out/**'
+    - '**/.turbo/**'
+    - 'apps/desktop/build/**'
+    - 'apps/desktop/resources/licenses/**'
+    - 'apps/desktop/src/renderer/astryx-theme/maka.css'
+    - 'apps/desktop/src/renderer/astryx-theme/maka.d.ts'
+    - 'apps/desktop/src/renderer/astryx-theme/maka.js'
+    - 'apps/desktop/src/renderer/public/THIRD_PARTY_LICENSES.txt'
+    - 'docs/astryx-surface-file-inventory.md'
+    - 'docs/astryx-surface-file-inventory.paths'
+    - 'docs/windows-test-inventory.md'
+    - 'experiments/windows-sandbox/launcher/Cargo.lock'
+    - 'packages/cli/THIRD_PARTY_NOTICES.txt'
+    - 'packages/core/src/model-metadata.generated.ts'
+    - 'packages/eval/harbor/deepseek-harness-profile/cordis.patch.yml'
+    - 'packages/runtime/resources/bundled-skills/computer-use/SKILL.md'
+    - 'packages/runtime/src/bundled-skill-catalog.generated.ts'
+    - 'packages/runtime/src/edit-replace.ts'
+    - 'packages/runtime/src/model-protocol.ts'
+    - 'packages/runtime/src/telemetry/model-pricing.generated.ts'
+    - 'packages/runtime/src/tool-output.ts'
+    - 'packages/storage/test-fixtures/**'
+    - 'packages/storage/src/__tests__/fixtures/**'
+    - 'packages/ui/src/astryx-chat-reasoning.tsx'
+    - 'patches/*.patch'
+    - 'DISCLAIMER-WIP'
+    - 'LICENSE'
+    - 'NOTICE'
