@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import type { ReactNode } from 'react';
+import { startTransition, type ReactNode } from 'react';
 import { Tab, TabList } from '@astryxdesign/core';
 import type { AutomationModule, ExtensionModule } from './nav-selection.js';
 import { useUiLocale } from './locale-context.js';
@@ -55,7 +55,11 @@ function Selector(props: {
       className="maka-module-hub-selector"
       value={props.value}
       aria-label={props.ariaLabel}
-      onChange={props.onChange}
+      onChange={(value) => {
+        // Module leaves are lazy-loaded. Keep the current page committed while
+        // the next leaf chunk resolves instead of briefly showing its fallback.
+        startTransition(() => props.onChange(value));
+      }}
     >
       {props.options.map(([value, label, icon]) => (
         <Tab key={value} value={value} label={label} icon={icon} />

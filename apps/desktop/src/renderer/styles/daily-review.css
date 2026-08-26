@@ -24,7 +24,6 @@
 .maka-daily-review-report,
 .maka-daily-review-content {
   min-width: 0;
-  animation: maka-daily-review-enter var(--duration-base) var(--ease-out-strong) both;
 }
 
 .maka-daily-review-content {
