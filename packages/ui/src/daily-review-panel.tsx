@@ -92,10 +92,12 @@ export function DailyReviewPanel(props: {
   const bridgeRef = useRef(props.bridge);
   bridgeRef.current = props.bridge;
 
+  const initialSummary = props.bridge.getCachedDay?.(0, 1);
   const [activityState, dispatchActivity] = useReducer(
     dailyReviewActivityReducer,
-    { range: 1, offsetDays: 0 },
-    createDailyReviewActivityState,
+    { scope: { range: 1 as DailyReviewRange, offsetDays: 0 }, initialSummary },
+    ({ scope, initialSummary: cachedSummary }) =>
+      createDailyReviewActivityState(scope, cachedSummary),
   );
   const [reloadToken, setReloadToken] = useState(0);
   const [archiveState, setArchiveState] = useState<DailyReviewArchiveState>({ status: 'loading' });

@@ -43,11 +43,17 @@ export type DailyReviewActivityAction =
   | { readonly type: 'resolved'; readonly scope: DailyReviewScope; readonly summary: DailyReviewSummary }
   | { readonly type: 'rejected'; readonly scope: DailyReviewScope; readonly error: string };
 
-export function createDailyReviewActivityState(scope: DailyReviewScope): DailyReviewActivityState {
+export function createDailyReviewActivityState(
+  scope: DailyReviewScope,
+  initialSummary?: DailyReviewSummary,
+): DailyReviewActivityState {
+  const initialScopeKey = scopeKey(scope);
   return {
     selection: scope,
-    resolvedView: null,
-    pendingScopeKey: scopeKey(scope),
+    resolvedView: initialSummary
+      ? { scope, scopeKey: initialScopeKey, summary: initialSummary }
+      : null,
+    pendingScopeKey: initialSummary ? null : initialScopeKey,
     error: null,
   };
 }

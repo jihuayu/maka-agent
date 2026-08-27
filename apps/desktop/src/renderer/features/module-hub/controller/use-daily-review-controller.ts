@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import type {
   DailyReviewArchive,
   DailyReviewArchiveSummary,
@@ -68,6 +68,7 @@ export interface ActiveComposerClaim {
 /** Structural equivalent of the UI bridge; kept here so @maka/ui stays leaf-only. */
 export interface DailyReviewBridge {
   fetchDay(offsetDays: number, daySpan?: number): Promise<DailyReviewSummary>;
+  getCachedDay?(offsetDays: number, daySpan?: number): DailyReviewSummary | undefined;
   runOnce?(input: {
     range: DailyReviewRange;
     offsetDays?: number;
@@ -149,9 +150,13 @@ export function createDailyReviewBridge(
   locale: UiLocale,
 ): DailyReviewBridge {
   const copy = getShellRemainingCopy(locale).dailyReview;
+  const dayCache = new Map<string, DailyReviewSummary>();
   return {
+    getCachedDay(offsetDays: number, daySpan?: number) {
+      return dayCache.get(dailyReviewCacheKey(offsetDays, daySpan));
+    },
     async fetchDay(offsetDays: number, daySpan?: number) {
-      return readCurrentDefaultHost(services, async (host) => {
+      const summary = await readCurrentDefaultHost(services, async (host) => {
         const result = await services.dailyReview.day(
           offsetDays,
           daySpan,
@@ -160,6 +165,8 @@ export function createDailyReviewBridge(
         if (!result.ok) throw new Error(result.error.message);
         return result.data;
       });
+      dayCache.set(dailyReviewCacheKey(offsetDays, daySpan), summary);
+      return summary;
     },
     runOnce(input) {
       return services.dailyReview.runOnce(input);
@@ -186,6 +193,14 @@ export function useDailyReviewController(
     () => createDailyReviewBridge(input.services, input.uiLocale),
     [input.services, input.uiLocale],
   );
+
+  const automationsActive = input.selection?.section === 'automations';
+  useEffect(() => {
+    if (!automationsActive) return;
+    // Warm today's summary while the Scheduled Tasks leaf is visible so the
+    // Daily Review leaf can render its first frame without a skeleton flash.
+    void bridge.fetchDay(0, 1).catch(() => undefined);
+  }, [automationsActive, bridge]);
 
   return useMemo(() => {
     const copy = getShellCopy(input.uiLocale).commandActions;
@@ -445,4 +460,8 @@ export function useDailyReviewController(
       saveToday,
     };
   }, [bridge, input.services, input.uiLocale, mountedRef]);
+}
+
+function dailyReviewCacheKey(offsetDays: number, daySpan?: number): string {
+  return `${offsetDays}:${daySpan ?? 1}`;
 }

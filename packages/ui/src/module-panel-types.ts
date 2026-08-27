@@ -167,6 +167,8 @@ export type ScheduledTaskDeliveryMethod = ScheduledTaskDelivery['channel'] | 'ag
  */
 export interface DailyReviewBridge {
   fetchDay(offsetDays: number, daySpan?: number): Promise<DailyReviewSummary>;
+  /** Returns a prefetched summary for the initial view without starting I/O. */
+  getCachedDay?(offsetDays: number, daySpan?: number): DailyReviewSummary | undefined;
   /**
    * PR-DAILY-REVIEW-FULL-0 — optional pipeline methods. Renderer checks
    * for presence before exposing the matching UI. When undefined, the
