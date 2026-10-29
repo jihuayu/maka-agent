@@ -245,3 +245,16 @@ jobs:
       - name: Validate installed CLI release candidate
         if: steps.plan.outputs.cli_package == 'true'
         run: npm run release:cli:smoke
+
+  license:
+    name: Check license headers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check license headers
+        uses: apache/skywalking-eyes/header@e9f91c35e4d4ae4420f722aa6598c4a13cc69093 # v0.8.0
+        with:
+          config: .github/config/licenserc.yml
